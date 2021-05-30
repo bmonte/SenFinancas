@@ -1,11 +1,11 @@
-import { useTransactions } from "hooks/useTransactions";
-import { TransactionItem } from './TransactionItem';
+import { useFilters } from "hooks/useFilters";
 
+import { TransactionItem } from "./TransactionItem";
 import { Container } from "./styles";
 
 export function TransactionsTable() {
-  const { transactions } = useTransactions();
-
+  const { filteredTransactions } = useFilters();
+  
   return (
     <Container>
       <table>
@@ -20,9 +20,9 @@ export function TransactionsTable() {
         </thead>
 
         <tbody>
-          {transactions.length !== 0 ? (
-            transactions.map((transaction) => (
-              <TransactionItem  key={transaction.id} transaction={transaction} />
+          {filteredTransactions.length !== 0 ? (
+            filteredTransactions.map((transaction) => (
+              <TransactionItem key={transaction.id} transaction={transaction} />
             ))
           ) : (
             <tr>

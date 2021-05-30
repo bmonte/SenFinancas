@@ -1,15 +1,15 @@
 import incomeImg from "assets/income.svg";
 import outcomeImg from "assets/outcome.svg";
 import totalImg from "assets/total.svg";
-import { useTransactions } from "hooks/useTransactions";
+import { useFilters } from "hooks/useFilters";
 
 import { SummaryCard } from "./SummaryCard";
 import { Container } from "./styles";
 
 export function Summary() {
-  const { transactions } = useTransactions();
+  const { filteredTransactions } = useFilters();
 
-  const summary = transactions.reduce(
+  const summary = filteredTransactions.reduce(
     (acc, transaction) => {
       if (transaction.type === "deposit") {
         acc.deposit += transaction.amount;

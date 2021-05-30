@@ -117,13 +117,15 @@ export function NewTransactionModal({
           placeholder="Nome"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          required
         />
 
         <input
           type="number"
           placeholder="Valor"
           value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
+          onChange={(e) => setAmount(+e.target.value)}
+          required
         />
 
         <TransactionTypeContainer>
@@ -150,12 +152,14 @@ export function NewTransactionModal({
 
         <select
           onChange={(e) => setCategory(e.target.value as TransactionCategory)}
+          defaultValue={category}
+          required
         >
+          <option value="" disabled>Selecione uma categoria</option>
           {transactionOptions.map((transaction) => (
             <option
               key={transaction.id}
               value={transaction.type}
-              disabled={transaction.id === 0}
             >
               {transaction.value}
             </option>
