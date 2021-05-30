@@ -53,22 +53,22 @@ export function NewTransactionModal({
   const isEditingTransaction = useMemo(() => transaction !== undefined, [transaction]);
 
   const [type, setType] = useState<TransactionType>("deposit");
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState<number | undefined>(undefined);
+  const [name, setName] = useState<string>("");
+  const [amount, setAmount] = useState<string>("");
   const [category, setCategory] = useState<TransactionCategory>("home");
 
   useEffect(() => {
     if (!transaction) return;
 
     setName(transaction.name);
-    setAmount(transaction.amount);
+    setAmount(String(transaction.amount));
     setCategory(transaction.category);
     setType(transaction.type);
   }, [transaction]);
 
   function resetForm() {
     setName("");
-    setAmount(undefined);
+    setAmount("");
     setCategory("home");
     setType("deposit");
 
@@ -80,7 +80,7 @@ export function NewTransactionModal({
 
     const formTransaction = {
       name,
-      amount: amount ?? 0,
+      amount: Number(amount) ?? 0,
       type,
       category,
     };
@@ -123,8 +123,10 @@ export function NewTransactionModal({
         <input
           type="number"
           placeholder="Valor"
+          min={0}
+          step={"0.01"}
           value={amount}
-          onChange={(e) => setAmount(+e.target.value)}
+          onChange={(e) => setAmount(e.target.value)}
           required
         />
 
