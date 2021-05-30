@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import { saveLSItem, loadLSItem } from "services/localstorage";
 import { Transaction } from "models/Transaction";
@@ -12,7 +13,8 @@ interface TransactionsProviderProps {
 interface TransactionsContextData {
   transactions: Transaction[];
   createTransaction: (transaction: TransactionInput) => void;
-  removeTransaction: (transactionId: number) => void;
+  editTransaction: (transactionId: string, editTransaction: TransactionInput) => void;
+  removeTransaction: (transactionId: string) => void;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
@@ -28,29 +30,46 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions(transactions);
   }, []);
 
-  function createTransaction(transaction: TransactionInput) {
-    const lsTransaction = saveLSItem("transactionRegister", transaction);
+  useEffect(() => {
+    saveLSItem("transactionRegister", transactions);
+  }, [transactions]);
 
-    const newTransaction = {
-      ...lsTransaction,
-      createdAt: new Date(),
+  function createTransaction(transaction: TransactionInput) {
+    const today = new Date();
+
+    const newTransaction: Transaction = {
+      ...transaction,
+      id: uuidv4(),
+      createdAt: today.toString(),
     };
 
     setTransactions((oldValue) => [...oldValue, newTransaction]);
   }
 
-  function removeTransaction(transactionId: number) {
+  function editTransaction(transactionId: string, editTransaction: TransactionInput) {
+    const changedTransactions = transactions.map((transaction) =>
+      transaction.id === transactionId
+        ? {
+            ...transaction,
+            ...editTransaction,
+          }
+        : transaction
+    );
+
+    setTransactions(changedTransactions);
+  }
+
+  function removeTransaction(transactionId: string) {
     const filteredTransactions = transactions.filter(
       (transaction) => transaction.id !== transactionId
     );
-    const lsTransactions = saveLSItem("transactionRegister", filteredTransactions);
 
-    setTransactions(lsTransactions);
+    setTransactions(filteredTransactions);
   }
 
   return (
     <TransactionsContext.Provider
-      value={{ transactions, createTransaction, removeTransaction }}
+      value={{ transactions, createTransaction, removeTransaction, editTransaction }}
     >
       {children}
     </TransactionsContext.Provider>

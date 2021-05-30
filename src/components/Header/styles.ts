@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { device } from 'utils/breakpoints'
 
 export const Container = styled.header`
   background: var(--blue);
@@ -29,6 +30,14 @@ export const Content = styled.div`
 
     &:hover {
       filter: brightness(0.9);
+    }
+  }
+
+  @media ${device.mobileL} {
+    flex-direction: column;
+
+    button {
+      margin-top: 1.5rem;
     }
   }
 `;

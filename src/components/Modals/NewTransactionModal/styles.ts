@@ -8,7 +8,7 @@ export const Container = styled.form`
     margin-bottom: 2rem;
   }
 
-  input {
+  input, select {
     width: 100%;
     height: 4rem;
     padding: 0 1.5rem;

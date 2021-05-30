@@ -10,7 +10,7 @@ export const Container = styled.div`
     gap: 1rem;
   }
 
-  ${device.tablet} {
+  @media ${device.tablet} {
     div + div {
       margin-top: 1rem;
     }

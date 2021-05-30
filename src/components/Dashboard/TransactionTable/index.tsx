@@ -15,8 +15,7 @@ export function TransactionsTable() {
             <th>Valor</th>
             <th>Categoria</th>
             <th>Data</th>
-            <th>Editar</th>
-            <th>Remover</th>
+            <th colSpan={2}></th>
           </tr>
         </thead>
 
@@ -27,7 +26,7 @@ export function TransactionsTable() {
             ))
           ) : (
             <tr>
-              <td colSpan={6}>Nenhuma transação foi cadastrada ainda.</td>
+              <td colSpan={5}>Nenhuma transação foi cadastrada ainda.</td>
             </tr>
           )}
         </tbody>

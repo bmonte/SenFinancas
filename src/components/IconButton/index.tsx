@@ -3,13 +3,14 @@ import { memo } from 'react';
 import { Container } from './styles'
 
 interface IconButtonProps {
+  title: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
 }
 
-function IconButton({ onClick, children }: IconButtonProps) {
+function IconButton({ title, onClick, children }: IconButtonProps) {
   return (
-    <Container onClick={onClick}>
+    <Container onClick={onClick} title={title}>
       {children}
     </Container>
   )
