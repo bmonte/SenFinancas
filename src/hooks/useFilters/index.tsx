@@ -82,10 +82,6 @@ export function FiltersProvider({ children }: FiltersProviderProps) {
   }, [transactions, filters]);
 
   useEffect(() => {
-    setFilteredTransactions(transactions);
-  }, [transactions]);
-
-  useEffect(() => {
     applyFilters();
   }, [applyFilters]);
 
