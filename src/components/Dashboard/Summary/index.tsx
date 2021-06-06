@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import incomeImg from "assets/income.svg";
 import outcomeImg from "assets/outcome.svg";
 import totalImg from "assets/total.svg";
@@ -9,24 +11,26 @@ import { Container } from "./styles";
 export function Summary() {
   const { filteredTransactions } = useFilters();
 
-  const summary = filteredTransactions.reduce(
-    (acc, transaction) => {
-      if (transaction.type === "deposit") {
-        acc.deposit += transaction.amount;
-      } else {
-        acc.withdraw += transaction.amount;
+  const summary = useMemo(() => (
+    filteredTransactions.reduce(
+      (acc, transaction) => {
+        if (transaction.type === "deposit") {
+          acc.deposit += transaction.amount;
+        } else {
+          acc.withdraw += transaction.amount;
+        }
+  
+        acc.total = acc.deposit - acc.withdraw;
+  
+        return acc;
+      },
+      {
+        deposit: 0,
+        withdraw: 0,
+        total: 0,
       }
-
-      acc.total = acc.deposit - acc.withdraw;
-
-      return acc;
-    },
-    {
-      deposit: 0,
-      withdraw: 0,
-      total: 0,
-    }
-  );
+    )
+  ), [filteredTransactions]);
 
   function setCardColor(currency: number) {
     return Math.sign(currency) >= 0 ? "green" : "red";
